@@ -12,13 +12,13 @@ import 'package:onboarding/features/documents/presentation/pages/documents_scree
 import 'package:onboarding/features/lab_links/presentation/pages/lab_links_screen.dart';
 import 'package:onboarding/features/patients/presentation/pages/patients_screen.dart';
 import 'package:onboarding/features/patients/presentation/pages/new_simulation_screen.dart';
+import 'package:onboarding/features/settings/presentation/pages/settings_screen.dart'; // ← added
 import 'package:onboarding/features/splash/presentation/pages/splash_screen.dart';
 
 final dashboardIndexProvider = StateProvider<int>((ref) => 0);
 
 const double _kSidebarBreakpoint = 600;
-const double _kSidebarWidth      = 200;
-
+const double _kSidebarWidth = 200;
 const _kSectionLabels = [
   'Dashboard', 'Patients', 'Lab Links', 'Documents & Records', 'Analytics',
   'Billing', 'Staff', 'Settings', 'More',
@@ -59,7 +59,8 @@ class DashboardScreen extends ConsumerWidget {
       case 3: return DocumentsScreen(embedded: embedded);
       case 4: return AnalyticsScreen(embedded: embedded);
       case 5: return BillingScreen(embedded: embedded);
-      case 6: return _PlaceholderBody(index: index);
+      case 6: return _PlaceholderBody(index: index); // Staff
+      case 7: return const SettingsScreen();          // ← fixed: was _PlaceholderBody
       default: return _PlaceholderBody(index: index);
     }
   }
@@ -81,7 +82,7 @@ class _BottomNav extends ConsumerWidget {
           height: 60.h,
           child: Row(
             children: [
-              _BottomNavItem(icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home',     index: 0, selectedIndex: selectedIndex),
+              _BottomNavItem(icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home', index: 0, selectedIndex: selectedIndex),
               _BottomNavItem(icon: Icons.person_outline, activeIcon: Icons.person, label: 'Patients', index: 1, selectedIndex: selectedIndex),
               Expanded(
                 child: GestureDetector(
@@ -150,6 +151,7 @@ class _BottomNavItem extends ConsumerWidget {
     required this.index,
     required this.selectedIndex,
   });
+
   final IconData icon, activeIcon;
   final String label;
   final int index, selectedIndex;
@@ -235,6 +237,7 @@ class _CreateNewSheet extends StatelessWidget {
 
 class _CreateNewOption extends StatelessWidget {
   const _CreateNewOption({required this.icon, required this.color, required this.title, required this.subtitle, required this.onTap});
+
   final IconData icon;
   final Color color;
   final String title, subtitle;
@@ -278,21 +281,23 @@ class _CreateNewOption extends StatelessWidget {
 
 class _MoreSheet extends StatelessWidget {
   const _MoreSheet({required this.selectedIndex, required this.onSelect, required this.onLogout});
+
   final int selectedIndex;
   final void Function(int) onSelect;
   final VoidCallback onLogout;
 
   static const _mainItems = [
-    _NavItem(icon: Icons.dashboard_outlined,    label: 'Dashboard', index: 0),
-    _NavItem(icon: Icons.person_outline,        label: 'Patients',  index: 1),
-    _NavItem(icon: Icons.science_outlined,      label: 'Lab Links', index: 2),
-    _NavItem(icon: Icons.folder_outlined,       label: 'Documents & Records', index: 3),
-    _NavItem(icon: Icons.bar_chart_outlined,    label: 'Analytics', index: 4),
+    _NavItem(icon: Icons.dashboard_outlined, label: 'Dashboard', index: 0),
+    _NavItem(icon: Icons.person_outline, label: 'Patients', index: 1),
+    _NavItem(icon: Icons.science_outlined, label: 'Lab Links', index: 2),
+    _NavItem(icon: Icons.folder_outlined, label: 'Documents & Records', index: 3),
+    _NavItem(icon: Icons.bar_chart_outlined, label: 'Analytics', index: 4),
   ];
+
   static const _moreItems = [
-    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',  index: 5),
-    _NavItem(icon: Icons.group_outlined,        label: 'Staff',    index: 6),
-    _NavItem(icon: Icons.settings_outlined,     label: 'Settings', index: 7),
+    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing', index: 5),
+    _NavItem(icon: Icons.group_outlined, label: 'Staff', index: 6),
+    _NavItem(icon: Icons.settings_outlined, label: 'Settings', index: 7),
   ];
 
   @override
@@ -347,6 +352,7 @@ class _MoreSheet extends StatelessWidget {
 class _SheetSectionLabel extends StatelessWidget {
   const _SheetSectionLabel(this.text);
   final String text;
+
   @override
   Widget build(BuildContext context) => Padding(
     padding: EdgeInsets.only(left: 8.w, bottom: 2.h),
@@ -357,9 +363,11 @@ class _SheetSectionLabel extends StatelessWidget {
 
 class _SheetTile extends StatelessWidget {
   const _SheetTile({required this.item, required this.isSelected, required this.onTap});
+
   final _NavItem item;
   final bool isSelected;
   final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) => InkWell(
     onTap: onTap,
@@ -399,20 +407,22 @@ class _PlaceholderBody extends StatelessWidget {
 
 class _SidebarContent extends ConsumerWidget {
   const _SidebarContent({required this.selectedIndex, required this.width});
+
   final int selectedIndex;
   final double width;
 
   static const _mainItems = [
-    _NavItem(icon: Icons.dashboard_outlined,    label: 'Dashboard', index: 0),
-    _NavItem(icon: Icons.person_outline,        label: 'Patients',  index: 1),
-    _NavItem(icon: Icons.science_outlined,      label: 'Lab Links', index: 2),
-    _NavItem(icon: Icons.folder_outlined,       label: 'Documents & Records', index: 3),
-    _NavItem(icon: Icons.bar_chart_outlined,    label: 'Analytics', index: 4),
+    _NavItem(icon: Icons.dashboard_outlined, label: 'Dashboard', index: 0),
+    _NavItem(icon: Icons.person_outline, label: 'Patients', index: 1),
+    _NavItem(icon: Icons.science_outlined, label: 'Lab Links', index: 2),
+    _NavItem(icon: Icons.folder_outlined, label: 'Documents & Records', index: 3),
+    _NavItem(icon: Icons.bar_chart_outlined, label: 'Analytics', index: 4),
   ];
+
   static const _moreItems = [
-    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',  index: 5),
-    _NavItem(icon: Icons.group_outlined,        label: 'Staff',    index: 6),
-    _NavItem(icon: Icons.settings_outlined,     label: 'Settings', index: 7),
+    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing', index: 5),
+    _NavItem(icon: Icons.group_outlined, label: 'Staff', index: 6),
+    _NavItem(icon: Icons.settings_outlined, label: 'Settings', index: 7),
   ];
 
   @override
@@ -459,6 +469,7 @@ class _SidebarContent extends ConsumerWidget {
 class _SectionLabel extends StatelessWidget {
   const _SectionLabel(this.text);
   final String text;
+
   @override
   Widget build(BuildContext context) => Padding(
     padding: EdgeInsets.symmetric(horizontal: 18.w),
@@ -468,7 +479,9 @@ class _SectionLabel extends StatelessWidget {
 
 class _SidebarTile extends StatelessWidget {
   const _SidebarTile({required this.item, required this.isSelected, required this.onTap});
+
   final _NavItem item; final bool isSelected; final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) => InkWell(
     onTap: onTap, borderRadius: BorderRadius.circular(8.r),

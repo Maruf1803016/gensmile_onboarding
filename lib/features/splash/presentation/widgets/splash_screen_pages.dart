@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:onboarding/common/widgets/buttons.dart';
 import 'package:onboarding/core/constant/app_colors.dart';
+import 'package:onboarding/core/constant/app_text_styles.dart';
+import 'package:onboarding/core/constant/app_spacing.dart';
 import 'package:onboarding/core/states/navigator_state.dart';
 import 'package:onboarding/features/splash/data/models/splash.dart';
 import 'package:onboarding/features/splash/states/splash_states.dart';
@@ -16,10 +17,10 @@ class SplashScreenPages extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final splashController = ref.watch(splashControllerState);
-    final splashData       = ref.watch(splashDataState);
+    final splashData = ref.watch(splashDataState);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: SafeArea(
         child: PageView.builder(
           controller: splashController,
@@ -50,7 +51,6 @@ class SplashPage extends ConsumerWidget {
   final int index;
   final int total;
 
-  // Fallback icons per page when images are not available
   static const _icons = [
     Icons.medical_services_outlined,
     Icons.auto_awesome_outlined,
@@ -68,17 +68,20 @@ class SplashPage extends ConsumerWidget {
     return Stack(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.s6, // 24
+            vertical: AppSpacing.s6,  // 24
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // ── Illustration placeholder / real image ──
+              // Illustration
               _SplashIllustration(
                 imagePath: splash.image,
                 fallbackIcon: _icons[index % _icons.length],
               ),
 
-              Gap(40.h),
+              Gap(AppSpacing.s10), // 40
 
               // Dot indicators
               Row(
@@ -87,40 +90,39 @@ class SplashPage extends ConsumerWidget {
                   total,
                   (i) => AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
-                    margin: EdgeInsets.symmetric(horizontal: 4.w),
+                    margin: EdgeInsets.symmetric(horizontal: AppSpacing.s1), // 4
                     width: i == index ? 20.w : 8.w,
                     height: 8.w,
                     decoration: BoxDecoration(
                       color: i == index
                           ? AppColors.primary
-                          : AppColors.inputBorder,
-                      borderRadius: BorderRadius.circular(4.r),
+                          : AppColors.borderDefault,
+                      borderRadius: BorderRadius.circular(AppRadius.r1), // 4
                     ),
                   ),
                 ),
               ),
 
-              Gap(24.h),
+              Gap(AppSpacing.s6), // 24
 
+              // Title — was AppColors.black0A → now AppColors.textPrimary
               Text(
                 splash.title,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.black0A,
-                ),
+                style: AppTextStyles.h5Bold(color: AppColors.textPrimary),
               ),
-              Gap(12.h),
+
+              Gap(AppSpacing.s3), // 12
+
+              // Description — was AppColors.grayColor → now AppColors.textSubTitle
               Text(
                 splash.description,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
-                  fontSize: 15.sp,
-                  color: AppColors.grayColor,
-                ),
+                style: AppTextStyles.lgRegular(color: AppColors.textSubTitle),
               ),
-              Gap(40.h),
+
+              Gap(AppSpacing.s10), // 40
+
               PrimaryButton(
                 text: index == total - 1 ? 'Get Started' : 'Next',
                 onPressed: () {
@@ -146,11 +148,7 @@ class SplashPage extends ConsumerWidget {
             onPressed: goToSignIn,
             child: Text(
               'Skip',
-              style: GoogleFonts.inter(
-                fontSize: 14.sp,
-                color: AppColors.primary,
-                fontWeight: FontWeight.w500,
-              ),
+              style: AppTextStyles.mdMedium(color: AppColors.primary),
             ),
           ),
         ),
@@ -159,7 +157,6 @@ class SplashPage extends ConsumerWidget {
   }
 }
 
-/// Shows the real image if available, gracefully falls back to an icon illustration
 class _SplashIllustration extends StatelessWidget {
   const _SplashIllustration({
     required this.imagePath,
