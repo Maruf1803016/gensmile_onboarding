@@ -149,7 +149,7 @@ class PatientsScreen extends ConsumerWidget {
                   ),
                   SizedBox(height: 8.h),
 
-                  // Table header (desktop)
+                  // Table header (desktop only)
                   if (isWide)
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -207,32 +207,59 @@ class PatientsScreen extends ConsumerWidget {
       style: GoogleFonts.inter(fontSize: 10.sp, fontWeight: FontWeight.w600, color: AppColors.gray, letterSpacing: 0.5));
 }
 
-// ── Desktop Row ───────────────────────────────────────────────────────────────
+// ── Patient Row (desktop + mobile) ───────────────────────────────────────────
 class _PatientRow extends StatelessWidget {
   const _PatientRow({required this.patient, required this.isWide, required this.onView, required this.onSimulate});
   final _Patient patient; final bool isWide;
   final VoidCallback onView, onSimulate;
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.inputBorder))),
-    child: Row(children: [
-      SizedBox(width: 80.w, child: Text(patient.id, style: GoogleFonts.inter(fontSize: 12.sp, color: AppColors.gray))),
-      Expanded(child: Row(children: [
-        CircleAvatar(radius: 14.r, backgroundColor: patient.color,
-            child: Text(patient.initials, style: GoogleFonts.inter(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.w700))),
-        SizedBox(width: 10.w),
-        Text(patient.name, style: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w500, color: AppColors.textColor)),
-      ])),
-      SizedBox(width: 180.w, child: Text(patient.phone, style: GoogleFonts.inter(fontSize: 12.sp, color: AppColors.gray))),
-      SizedBox(width: 140.w, child: Row(children: [
-        _ActionBtn(icon: Icons.visibility_outlined, label: 'View',     color: AppColors.primary, onTap: onView),
-        SizedBox(width: 16.w),
-        _ActionBtn(icon: Icons.auto_awesome_outlined, label: 'Simulate', color: AppColors.primary, onTap: onSimulate),
-      ])),
-    ]),
-  );
+  Widget build(BuildContext context) {
+    if (!isWide) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.inputBorder))),
+        child: Row(children: [
+          CircleAvatar(radius: 14.r, backgroundColor: patient.color,
+              child: Text(patient.initials, style: GoogleFonts.inter(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.w700))),
+          SizedBox(width: 10.w),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(patient.name, style: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w500, color: AppColors.textColor)),
+            Text(patient.phone, style: GoogleFonts.inter(fontSize: 11.sp, color: AppColors.gray)),
+          ])),
+          GestureDetector(
+            onTap: onView,
+            child: Icon(Icons.visibility_outlined, size: 18.sp, color: AppColors.primary),
+          ),
+          SizedBox(width: 12.w),
+          GestureDetector(
+            onTap: onSimulate,
+            child: Icon(Icons.auto_awesome_outlined, size: 18.sp, color: AppColors.primary),
+          ),
+        ]),
+      );
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.inputBorder))),
+      child: Row(children: [
+        SizedBox(width: 80.w, child: Text(patient.id, style: GoogleFonts.inter(fontSize: 12.sp, color: AppColors.gray))),
+        Expanded(child: Row(children: [
+          CircleAvatar(radius: 14.r, backgroundColor: patient.color,
+              child: Text(patient.initials, style: GoogleFonts.inter(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.w700))),
+          SizedBox(width: 10.w),
+          Text(patient.name, style: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w500, color: AppColors.textColor)),
+        ])),
+        SizedBox(width: 180.w, child: Text(patient.phone, style: GoogleFonts.inter(fontSize: 12.sp, color: AppColors.gray))),
+        SizedBox(width: 140.w, child: Row(children: [
+          Flexible(child: _ActionBtn(icon: Icons.visibility_outlined, label: 'View',     color: AppColors.primary, onTap: onView)),
+          SizedBox(width: 8.w),
+          Flexible(child: _ActionBtn(icon: Icons.auto_awesome_outlined, label: 'Simulate', color: AppColors.primary, onTap: onSimulate)),
+        ])),
+      ]),
+    );
+  }
 }
 
 // ── Mobile Row ────────────────────────────────────────────────────────────────

@@ -6,34 +6,33 @@ import 'package:gap/gap.dart';
 import 'package:onboarding/core/constant/app_colors.dart';
 import 'package:onboarding/features/patients/presentation/pages/simulation_result_screen.dart';
 
-// ── Providers ─────────────────────────────────────────────────────────────────
-final simStepProvider         = StateProvider<int>((ref) => 0);
+final simStepProvider            = StateProvider<int>((ref) => 0);
 final simSelectedPatientProvider = StateProvider<String?>((ref) => null);
-final simTypeProvider         = StateProvider<String>((ref) => 'Ortho Simulation');
-final simGoalsProvider        = StateProvider<List<String>>((ref) => ['Teeth Whitening', 'Smile Symmetry']);
+final simTypeProvider            = StateProvider<String>((ref) => 'Ortho Simulation');
+final simGoalsProvider           = StateProvider<List<String>>((ref) => ['Teeth Whitening', 'Smile Symmetry']);
 
 const _kSteps = ['Select Patient', 'Upload Photo', 'Simulation Type', 'Treatment Goals'];
 
 const _kSimPatients = [
-  _SimPatient(id: 'P001', name: 'John Williams',  phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 15, 2026'),
-  _SimPatient(id: 'P001', name: 'Sarah Davis',    phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 8, 2026'),
-  _SimPatient(id: 'P001', name: 'Sarah Davis',    phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 9, 2026'),
-  _SimPatient(id: 'P002', name: 'Sarah Davis',    phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 15, 2026'),
-  _SimPatient(id: 'P003', name: 'Michael Tan',    phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 15, 2026'),
+  _SimPatient(id: 'P001', name: 'John Williams', phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 15, 2026'),
+  _SimPatient(id: 'P001', name: 'Sarah Davis',   phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 8, 2026'),
+  _SimPatient(id: 'P001', name: 'Sarah Davis',   phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 9, 2026'),
+  _SimPatient(id: 'P002', name: 'Sarah Davis',   phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 15, 2026'),
+  _SimPatient(id: 'P003', name: 'Michael Tan',   phone: '+1 (555) 234-5678', email: 'john.williams@email.com', lastVisit: 'Mar 15, 2026'),
 ];
 
 const _kSimTypes = [
-  _SimType(id: 'ortho',    icon: Icons.sentiment_satisfied_outlined, title: 'Ortho Simulation',    subtitle: 'Predict teeth alignment result',    desc: 'Visualize orthodontic treatment outcomes including teeth straightening and bite correction'),
-  _SimType(id: 'smile',    icon: Icons.auto_awesome_outlined,        title: 'Smile Enhancement',   subtitle: 'Improve aesthetics',                desc: 'Preview cosmetic improvements including whitening, veneers, and overall smile aesthetics'),
-  _SimType(id: 'combined', icon: Icons.grid_view_outlined,           title: 'Combined Simulation', subtitle: 'Alignment + smile improvement',     desc: 'Comprehensive preview combining orthodontic alignment with cosmetic enhancements'),
+  _SimType(id: 'ortho',    icon: Icons.sentiment_satisfied_outlined, title: 'Ortho Simulation',    subtitle: 'Predict teeth alignment result',   desc: 'Visualize orthodontic treatment outcomes including teeth straightening and bite correction'),
+  _SimType(id: 'smile',    icon: Icons.auto_awesome_outlined,        title: 'Smile Enhancement',   subtitle: 'Improve aesthetics',               desc: 'Preview cosmetic improvements including whitening, veneers, and overall smile aesthetics'),
+  _SimType(id: 'combined', icon: Icons.grid_view_outlined,           title: 'Combined Simulation', subtitle: 'Alignment + smile improvement',    desc: 'Comprehensive preview combining orthodontic alignment with cosmetic enhancements'),
 ];
 
 const _kGoals = [
-  _Goal(id: 'alignment', icon: Icons.grid_on_outlined,             title: 'Alignment Correction', subtitle: 'Straighten misaligned teeth'),
-  _Goal(id: 'veneers',   icon: Icons.face_outlined,                title: 'Veneers',              subtitle: 'Improve tooth shape and size'),
-  _Goal(id: 'makeover',  icon: Icons.sentiment_very_satisfied_outlined, title: 'Full Smile Makeover', subtitle: 'Comprehensive transformation'),
-  _Goal(id: 'whitening', icon: Icons.brightness_high_outlined,    title: 'Teeth Whitening',      subtitle: 'Brighten tooth color'),
-  _Goal(id: 'symmetry',  icon: Icons.crop_free_outlined,           title: 'Smile Symmetry',       subtitle: 'Balance facial aesthetics'),
+  _Goal(id: 'alignment', icon: Icons.grid_on_outlined,                  title: 'Alignment Correction', subtitle: 'Straighten misaligned teeth'),
+  _Goal(id: 'veneers',   icon: Icons.face_outlined,                     title: 'Veneers',              subtitle: 'Improve tooth shape and size'),
+  _Goal(id: 'makeover',  icon: Icons.sentiment_very_satisfied_outlined, title: 'Full Smile Makeover',  subtitle: 'Comprehensive transformation'),
+  _Goal(id: 'whitening', icon: Icons.brightness_high_outlined,          title: 'Teeth Whitening',      subtitle: 'Brighten tooth color'),
+  _Goal(id: 'symmetry',  icon: Icons.crop_free_outlined,                title: 'Smile Symmetry',       subtitle: 'Balance facial aesthetics'),
 ];
 
 class NewSimulationScreen extends ConsumerWidget {
@@ -41,13 +40,12 @@ class NewSimulationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final step    = ref.watch(simStepProvider);
-    final isWide  = MediaQuery.sizeOf(context).width >= 600;
+    final step   = ref.watch(simStepProvider);
+    final isWide = MediaQuery.sizeOf(context).width >= 600;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF4F5F7),
       body: Column(children: [
-        // ── Top bar ──
         Container(
           color: Colors.white,
           child: SafeArea(
@@ -72,8 +70,6 @@ class NewSimulationScreen extends ConsumerWidget {
                   Icon(Icons.notifications_outlined, size: 20.sp, color: AppColors.gray),
                 ]),
                 SizedBox(height: 14.h),
-
-                // Progress bar (mobile)
                 if (!isWide) ...[
                   Row(children: [
                     Expanded(child: ClipRRect(
@@ -91,24 +87,18 @@ class NewSimulationScreen extends ConsumerWidget {
                   ]),
                   SizedBox(height: 10.h),
                 ],
-
-                // Stepper (desktop)
                 if (isWide) _Stepper(currentStep: step),
                 if (isWide) SizedBox(height: 8.h),
               ]),
             ),
           ),
         ),
-
-        // ── Step content ──
         Expanded(
           child: SingleChildScrollView(
             padding: EdgeInsets.all(16.w),
             child: _buildStep(context, ref, step, isWide),
           ),
         ),
-
-        // ── Bottom nav ──
         Container(
           color: Colors.white,
           padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 16.h),
@@ -171,15 +161,14 @@ class NewSimulationScreen extends ConsumerWidget {
       context: context,
       barrierDismissible: false,
       builder: (_) => _GeneratingDialog(onComplete: () {
-        Navigator.of(context).pop(); // close dialog
-        ref.read(simStepProvider.notifier).state = 0; // reset
+        Navigator.of(context).pop();
+        ref.read(simStepProvider.notifier).state = 0;
         Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SimulationResultScreen()));
       }),
     );
   }
 }
 
-// ── Stepper (desktop) ─────────────────────────────────────────────────────────
 class _Stepper extends StatelessWidget {
   const _Stepper({required this.currentStep});
   final int currentStep;
@@ -215,7 +204,6 @@ class _Stepper extends StatelessWidget {
   );
 }
 
-// ── Step 1: Select Patient ────────────────────────────────────────────────────
 class _StepSelectPatient extends ConsumerWidget {
   const _StepSelectPatient({required this.isWide});
   final bool isWide;
@@ -249,8 +237,6 @@ class _StepSelectPatient extends ConsumerWidget {
             ),
         ]),
         Gap(16.h),
-
-        // Search
         Container(height: 36.h,
             decoration: BoxDecoration(color: const Color(0xFFF5F6FA),
                 borderRadius: BorderRadius.circular(8.r), border: Border.all(color: AppColors.inputBorder)),
@@ -266,23 +252,19 @@ class _StepSelectPatient extends ConsumerWidget {
               )),
             ])),
         Gap(12.h),
-
-        // Table header (desktop)
         if (isWide)
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.h),
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.inputBorder))),
             child: Row(children: [
-              SizedBox(width: 80.w, child: _hCell('Patint ID')),
+              SizedBox(width: 80.w, child: _hCell('Patient ID')),
               Expanded(child: _hCell('Patient Name')),
               SizedBox(width: 160.w, child: _hCell('Phone Number')),
               SizedBox(width: 200.w, child: _hCell('Email')),
-              SizedBox(width: 120.w, child: _hCell('Last Visit:')),
+              SizedBox(width: 120.w, child: _hCell('Last Visit')),
               SizedBox(width: 30.w),
             ]),
           ),
-
-        // Patient list
         ..._kSimPatients.map((p) {
           final isSelected = selected == p.id + p.name;
           return GestureDetector(
@@ -310,7 +292,7 @@ class _StepSelectPatient extends ConsumerWidget {
                       SizedBox(width: 10.w),
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Text(p.name, style: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w600, color: AppColors.textColor)),
-                        Text('${p.phone}', style: GoogleFonts.inter(fontSize: 11.sp, color: AppColors.gray)),
+                        Text(p.phone, style: GoogleFonts.inter(fontSize: 11.sp, color: AppColors.gray)),
                         Text(p.email, style: GoogleFonts.inter(fontSize: 11.sp, color: AppColors.gray)),
                         Text('Last Visit: ${p.lastVisit}', style: GoogleFonts.inter(fontSize: 11.sp, color: AppColors.gray)),
                       ])),
@@ -327,7 +309,6 @@ class _StepSelectPatient extends ConsumerWidget {
       style: GoogleFonts.inter(fontSize: 10.sp, fontWeight: FontWeight.w600, color: AppColors.gray, letterSpacing: 0.5));
 }
 
-// ── Step 2: Upload Photo ──────────────────────────────────────────────────────
 class _StepUploadPhoto extends StatelessWidget {
   const _StepUploadPhoto({required this.isWide});
   final bool isWide;
@@ -351,15 +332,13 @@ class _StepUploadPhoto extends StatelessWidget {
         Text('Add a clear front-facing photo of the patient smile',
             style: GoogleFonts.inter(fontSize: 12.sp, color: AppColors.gray)),
         Gap(16.h),
-
-        // Drop zone
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(vertical: 32.h),
           decoration: BoxDecoration(
             color: const Color(0xFFF5F8FF),
             borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(color: AppColors.primary.withOpacity(0.3), style: BorderStyle.solid),
+            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
           ),
           child: Column(children: [
             Icon(Icons.upload_outlined, size: 36.sp, color: AppColors.primary),
@@ -370,8 +349,8 @@ class _StepUploadPhoto extends StatelessWidget {
             Text('or choose from options below',
                 style: GoogleFonts.inter(fontSize: 12.sp, color: AppColors.gray)),
             Gap(16.h),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              OutlinedButton.icon(
+            Row(children: [
+              Expanded(child: OutlinedButton.icon(
                 onPressed: () {},
                 icon: Icon(Icons.camera_alt_outlined, size: 13.sp),
                 label: Text('Capture Now', style: GoogleFonts.inter(fontSize: 12.sp, fontWeight: FontWeight.w600)),
@@ -380,9 +359,9 @@ class _StepUploadPhoto extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
                 ),
-              ),
+              )),
               SizedBox(width: 10.w),
-              ElevatedButton.icon(
+              Expanded(child: ElevatedButton.icon(
                 onPressed: () {},
                 icon: Icon(Icons.photo_library_outlined, size: 13.sp),
                 label: Text('Upload Photo & Video', style: GoogleFonts.inter(fontSize: 12.sp, fontWeight: FontWeight.w600)),
@@ -391,7 +370,7 @@ class _StepUploadPhoto extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
                   elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
                 ),
-              ),
+              )),
             ]),
           ]),
         ),
@@ -447,7 +426,6 @@ class _StepUploadPhoto extends StatelessWidget {
   }
 }
 
-// ── Step 3: Simulation Type ───────────────────────────────────────────────────
 class _StepSimulationType extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -463,7 +441,6 @@ class _StepSimulationType extends ConsumerWidget {
         Text('Choose the treatment goal for this preview',
             style: GoogleFonts.inter(fontSize: 12.sp, color: AppColors.gray)),
         Gap(16.h),
-
         ..._kSimTypes.map((t) {
           final isSelected = selectedType == t.title;
           return GestureDetector(
@@ -504,7 +481,6 @@ class _StepSimulationType extends ConsumerWidget {
             ),
           );
         }),
-
         Gap(8.h),
         Container(
           padding: EdgeInsets.all(12.w),
@@ -521,7 +497,6 @@ class _StepSimulationType extends ConsumerWidget {
   }
 }
 
-// ── Step 4: Treatment Goals ───────────────────────────────────────────────────
 class _StepTreatmentGoals extends ConsumerWidget {
   const _StepTreatmentGoals({required this.isWide});
   final bool isWide;
@@ -543,8 +518,6 @@ class _StepTreatmentGoals extends ConsumerWidget {
         Text('Treatment Goals',
             style: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w600, color: AppColors.textColor)),
         Gap(10.h),
-
-        // Goals grid
         isWide
             ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Expanded(child: Column(children: _kGoals.take(3).map((g) => _GoalTile(goal: g, selectedGoals: selectedGoals, ref: ref)).toList())),
@@ -552,7 +525,6 @@ class _StepTreatmentGoals extends ConsumerWidget {
                 Expanded(child: Column(children: _kGoals.skip(3).map((g) => _GoalTile(goal: g, selectedGoals: selectedGoals, ref: ref)).toList())),
               ])
             : Column(children: _kGoals.map((g) => _GoalTile(goal: g, selectedGoals: selectedGoals, ref: ref)).toList()),
-
         Gap(16.h),
         Container(
           width: double.infinity,
@@ -610,7 +582,6 @@ class _GoalTile extends StatelessWidget {
   }
 }
 
-// ── Generating Dialog ─────────────────────────────────────────────────────────
 class _GeneratingDialog extends StatefulWidget {
   const _GeneratingDialog({required this.onComplete});
   final VoidCallback onComplete;
@@ -670,8 +641,6 @@ class _GeneratingDialogState extends State<_GeneratingDialog> {
           Text('AI is analyzing the patient photo',
               style: GoogleFonts.inter(fontSize: 12.sp, color: AppColors.gray)),
           Gap(16.h),
-
-          // Progress bar
           Row(children: [
             Expanded(child: ClipRRect(
               borderRadius: BorderRadius.circular(4.r),
@@ -686,8 +655,6 @@ class _GeneratingDialogState extends State<_GeneratingDialog> {
                 style: GoogleFonts.inter(fontSize: 12.sp, fontWeight: FontWeight.w600, color: AppColors.primary)),
           ]),
           Gap(16.h),
-
-          // Steps
           ..._steps.asMap().entries.map((e) {
             final i = e.key; final s = e.value;
             final isDone    = i < _currentStep;
@@ -717,13 +684,12 @@ class _GeneratingDialogState extends State<_GeneratingDialog> {
                 Expanded(child: Text(s, style: GoogleFonts.inter(fontSize: 13.sp,
                     fontWeight: isCurrent ? FontWeight.w600 : FontWeight.w400,
                     color: isCurrent ? AppColors.textColor : AppColors.gray))),
-                if (isCurrent) SizedBox(width: 16.w,height: 16.w,
+                if (isCurrent) SizedBox(width: 16.w, height: 16.w,
                     child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary)),
               ]),
             );
           }),
           Gap(8.h),
-
           Container(
             padding: EdgeInsets.all(10.w),
             decoration: BoxDecoration(color: const Color(0xFFFFFBEB), borderRadius: BorderRadius.circular(8.r)),
@@ -736,7 +702,6 @@ class _GeneratingDialogState extends State<_GeneratingDialog> {
   }
 }
 
-// ── Models ────────────────────────────────────────────────────────────────────
 class _SimPatient {
   const _SimPatient({required this.id, required this.name, required this.phone, required this.email, required this.lastVisit});
   final String id, name, phone, email, lastVisit;

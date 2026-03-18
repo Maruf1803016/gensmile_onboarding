@@ -19,7 +19,6 @@ final dashboardIndexProvider = StateProvider<int>((ref) => 0);
 const double _kSidebarBreakpoint = 600;
 const double _kSidebarWidth      = 200;
 
-// Shared labels used across DashboardScreen
 const _kSectionLabels = [
   'Dashboard', 'Patients', 'Lab Links', 'Documents & Records', 'Analytics',
   'Billing', 'Staff', 'Settings', 'More',
@@ -45,7 +44,6 @@ class DashboardScreen extends ConsumerWidget {
       );
     }
 
-    // ── Mobile: bottom nav ──
     return Scaffold(
       backgroundColor: const Color(0xFFF4F5F7),
       body: SafeArea(bottom: false, child: _buildBody(context, ref, selectedIndex, embedded: true)),
@@ -61,12 +59,12 @@ class DashboardScreen extends ConsumerWidget {
       case 3: return DocumentsScreen(embedded: embedded);
       case 4: return AnalyticsScreen(embedded: embedded);
       case 5: return BillingScreen(embedded: embedded);
+      case 6: return _PlaceholderBody(index: index);
       default: return _PlaceholderBody(index: index);
     }
   }
 }
 
-// ── Bottom Navigation Bar ─────────────────────────────────────────────────────
 class _BottomNav extends ConsumerWidget {
   const _BottomNav({required this.selectedIndex});
   final int selectedIndex;
@@ -85,7 +83,6 @@ class _BottomNav extends ConsumerWidget {
             children: [
               _BottomNavItem(icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home',     index: 0, selectedIndex: selectedIndex),
               _BottomNavItem(icon: Icons.person_outline, activeIcon: Icons.person, label: 'Patients', index: 1, selectedIndex: selectedIndex),
-              // Centre + button
               Expanded(
                 child: GestureDetector(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const NewSimulationScreen())),
@@ -104,21 +101,16 @@ class _BottomNav extends ConsumerWidget {
                   ),
                 ),
               ),
-              _BottomNavItem(icon: Icons.group_outlined, activeIcon: Icons.group, label: 'Staff',    index: 5, selectedIndex: selectedIndex),
-              // More
+              _BottomNavItem(icon: Icons.group_outlined, activeIcon: Icons.group, label: 'Staff', index: 6, selectedIndex: selectedIndex),
               Expanded(
                 child: GestureDetector(
                   onTap: () => _showMoreSheet(context, ref),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.more_horiz,
-                          size: 22.sp,
-                          color: AppColors.gray),
+                      Icon(Icons.more_horiz, size: 22.sp, color: AppColors.gray),
                       SizedBox(height: 2.h),
-                      Text('More',
-                          style: GoogleFonts.inter(
-                              fontSize: 10.sp, color: AppColors.gray)),
+                      Text('More', style: GoogleFonts.inter(fontSize: 10.sp, color: AppColors.gray)),
                     ],
                   ),
                 ),
@@ -127,15 +119,6 @@ class _BottomNav extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _showCreateNewSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) => const _CreateNewSheet(),
     );
   }
 
@@ -197,7 +180,6 @@ class _BottomNavItem extends ConsumerWidget {
   }
 }
 
-// ── Create New Bottom Sheet ───────────────────────────────────────────────────
 class _CreateNewSheet extends StatelessWidget {
   const _CreateNewSheet();
 
@@ -234,7 +216,7 @@ class _CreateNewSheet extends StatelessWidget {
             color: AppColors.primary,
             title: 'New Simulation',
             subtitle: 'Create a new AI smile or orthodontic simulation for a patient',
-            onTap: () { Navigator.pop(context); /* TODO */ },
+            onTap: () { Navigator.pop(context); },
           ),
           Gap(12.h),
           _CreateNewOption(
@@ -242,7 +224,7 @@ class _CreateNewSheet extends StatelessWidget {
             color: AppColors.secondary,
             title: 'New Patient',
             subtitle: 'Add a new patient profile to the clinic database',
-            onTap: () { Navigator.pop(context); /* TODO */ },
+            onTap: () { Navigator.pop(context); },
           ),
           Gap(8.h),
         ],
@@ -294,7 +276,6 @@ class _CreateNewOption extends StatelessWidget {
   }
 }
 
-// ── More Bottom Sheet ─────────────────────────────────────────────────────────
 class _MoreSheet extends StatelessWidget {
   const _MoreSheet({required this.selectedIndex, required this.onSelect, required this.onLogout});
   final int selectedIndex;
@@ -305,13 +286,13 @@ class _MoreSheet extends StatelessWidget {
     _NavItem(icon: Icons.dashboard_outlined,    label: 'Dashboard', index: 0),
     _NavItem(icon: Icons.person_outline,        label: 'Patients',  index: 1),
     _NavItem(icon: Icons.science_outlined,      label: 'Lab Links', index: 2),
-    _NavItem(icon: Icons.folder_outlined,         label: 'Documents & Records', index: 3),
+    _NavItem(icon: Icons.folder_outlined,       label: 'Documents & Records', index: 3),
     _NavItem(icon: Icons.bar_chart_outlined,    label: 'Analytics', index: 4),
   ];
   static const _moreItems = [
-    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',   index: 5),
-    _NavItem(icon: Icons.group_outlined,        label: 'Staff',     index: 6),
-    _NavItem(icon: Icons.settings_outlined,     label: 'Settings',  index: 7),
+    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',  index: 5),
+    _NavItem(icon: Icons.group_outlined,        label: 'Staff',    index: 6),
+    _NavItem(icon: Icons.settings_outlined,     label: 'Settings', index: 7),
   ];
 
   @override
@@ -325,11 +306,9 @@ class _MoreSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Handle
           Center(child: Container(width: 40.w, height: 4.h,
               decoration: BoxDecoration(color: AppColors.inputBorder, borderRadius: BorderRadius.circular(2.r)))),
           Gap(12.h),
-          // Logo
           Row(children: [
             Container(width: 28.w, height: 28.w,
                 decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(6.r)),
@@ -402,7 +381,6 @@ class _SheetTile extends StatelessWidget {
   );
 }
 
-// ── Placeholder ───────────────────────────────────────────────────────────────
 class _PlaceholderBody extends StatelessWidget {
   const _PlaceholderBody({required this.index});
   final int index;
@@ -419,7 +397,6 @@ class _PlaceholderBody extends StatelessWidget {
   );
 }
 
-// ── Sidebar (desktop/tablet only) ────────────────────────────────────────────
 class _SidebarContent extends ConsumerWidget {
   const _SidebarContent({required this.selectedIndex, required this.width});
   final int selectedIndex;
@@ -429,13 +406,13 @@ class _SidebarContent extends ConsumerWidget {
     _NavItem(icon: Icons.dashboard_outlined,    label: 'Dashboard', index: 0),
     _NavItem(icon: Icons.person_outline,        label: 'Patients',  index: 1),
     _NavItem(icon: Icons.science_outlined,      label: 'Lab Links', index: 2),
-    _NavItem(icon: Icons.folder_outlined,         label: 'Documents & Records', index: 3),
+    _NavItem(icon: Icons.folder_outlined,       label: 'Documents & Records', index: 3),
     _NavItem(icon: Icons.bar_chart_outlined,    label: 'Analytics', index: 4),
   ];
   static const _moreItems = [
-    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',   index: 5),
-    _NavItem(icon: Icons.group_outlined,        label: 'Staff',     index: 6),
-    _NavItem(icon: Icons.settings_outlined,     label: 'Settings',  index: 7),
+    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',  index: 5),
+    _NavItem(icon: Icons.group_outlined,        label: 'Staff',    index: 6),
+    _NavItem(icon: Icons.settings_outlined,     label: 'Settings', index: 7),
   ];
 
   @override
