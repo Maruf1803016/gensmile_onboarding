@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
 import 'dart:math' as math;
 import 'package:onboarding/core/constant/app_colors.dart';
-import 'package:onboarding/core/states/navigator_state.dart';
 
 // ── Time filter provider ──────────────────────────────────────────────────────
 final analyticsFilterProvider = StateProvider<String>((ref) => 'Last Months');
@@ -35,7 +34,7 @@ class AnalyticsScreen extends ConsumerWidget {
               if (!embedded)
                 Row(children: [
                   GestureDetector(
-                    onTap: () => ref.read(navigatorState.notifier).pop(),
+                    onTap: () => Navigator.of(context).pop(),
                     child: Icon(Icons.arrow_back, size: 22.sp, color: AppColors.textColor),
                   ),
                   SizedBox(width: 12.w),

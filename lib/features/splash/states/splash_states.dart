@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onboarding/core/states/navigator_state.dart';
-import 'package:onboarding/features/auth/presentation/pages/sign_in_screen.dart';
 import 'package:onboarding/features/splash/presentation/widgets/splash_screen_pages.dart';
 import 'package:onboarding/features/splash/data/models/splash.dart';
 import 'package:onboarding/generated/assets.dart';

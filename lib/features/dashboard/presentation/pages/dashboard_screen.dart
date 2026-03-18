@@ -7,8 +7,11 @@ import 'package:onboarding/core/constant/app_colors.dart';
 import 'package:onboarding/core/states/navigator_state.dart';
 import 'package:onboarding/features/billing/presentation/pages/billing_screen.dart';
 import 'package:onboarding/features/dashboard/presentation/pages/dashboard_home.dart';
-//import 'package:onboarding/features/dashboard/presentation/pages/notifications_screen.dart';
 import 'package:onboarding/features/analytics/presentation/pages/analytics_screen.dart';
+import 'package:onboarding/features/documents/presentation/pages/documents_screen.dart';
+import 'package:onboarding/features/lab_links/presentation/pages/lab_links_screen.dart';
+import 'package:onboarding/features/patients/presentation/pages/patients_screen.dart';
+import 'package:onboarding/features/patients/presentation/pages/new_simulation_screen.dart';
 import 'package:onboarding/features/splash/presentation/pages/splash_screen.dart';
 
 final dashboardIndexProvider = StateProvider<int>((ref) => 0);
@@ -18,8 +21,8 @@ const double _kSidebarWidth      = 200;
 
 // Shared labels used across DashboardScreen
 const _kSectionLabels = [
-  'Dashboard', 'Patients', 'Lab Links', 'Analytics',
-  'Billing', 'Staff', 'Settings',
+  'Dashboard', 'Patients', 'Lab Links', 'Documents & Records', 'Analytics',
+  'Billing', 'Staff', 'Settings', 'More',
 ];
 
 class DashboardScreen extends ConsumerWidget {
@@ -53,8 +56,11 @@ class DashboardScreen extends ConsumerWidget {
   Widget _buildBody(BuildContext context, WidgetRef ref, int index, {required bool embedded}) {
     switch (index) {
       case 0: return DashboardHome(embedded: embedded);
-      case 3: return AnalyticsScreen(embedded: embedded);
-      case 4: return BillingScreen(embedded: embedded);
+      case 1: return PatientsScreen(embedded: embedded);
+      case 2: return LabLinksScreen(embedded: embedded);
+      case 3: return DocumentsScreen(embedded: embedded);
+      case 4: return AnalyticsScreen(embedded: embedded);
+      case 5: return BillingScreen(embedded: embedded);
       default: return _PlaceholderBody(index: index);
     }
   }
@@ -82,7 +88,7 @@ class _BottomNav extends ConsumerWidget {
               // Centre + button
               Expanded(
                 child: GestureDetector(
-                  onTap: () => _showCreateNewSheet(context),
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const NewSimulationScreen())),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -299,12 +305,13 @@ class _MoreSheet extends StatelessWidget {
     _NavItem(icon: Icons.dashboard_outlined,    label: 'Dashboard', index: 0),
     _NavItem(icon: Icons.person_outline,        label: 'Patients',  index: 1),
     _NavItem(icon: Icons.science_outlined,      label: 'Lab Links', index: 2),
-    _NavItem(icon: Icons.bar_chart_outlined,    label: 'Analytics', index: 3),
+    _NavItem(icon: Icons.folder_outlined,         label: 'Documents & Records', index: 3),
+    _NavItem(icon: Icons.bar_chart_outlined,    label: 'Analytics', index: 4),
   ];
   static const _moreItems = [
-    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',   index: 4),
-    _NavItem(icon: Icons.group_outlined,        label: 'Staff',     index: 5),
-    _NavItem(icon: Icons.settings_outlined,     label: 'Settings',  index: 6),
+    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',   index: 5),
+    _NavItem(icon: Icons.group_outlined,        label: 'Staff',     index: 6),
+    _NavItem(icon: Icons.settings_outlined,     label: 'Settings',  index: 7),
   ];
 
   @override
@@ -422,12 +429,13 @@ class _SidebarContent extends ConsumerWidget {
     _NavItem(icon: Icons.dashboard_outlined,    label: 'Dashboard', index: 0),
     _NavItem(icon: Icons.person_outline,        label: 'Patients',  index: 1),
     _NavItem(icon: Icons.science_outlined,      label: 'Lab Links', index: 2),
-    _NavItem(icon: Icons.bar_chart_outlined,    label: 'Analytics', index: 3),
+    _NavItem(icon: Icons.folder_outlined,         label: 'Documents & Records', index: 3),
+    _NavItem(icon: Icons.bar_chart_outlined,    label: 'Analytics', index: 4),
   ];
   static const _moreItems = [
-    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',   index: 4),
-    _NavItem(icon: Icons.group_outlined,        label: 'Staff',     index: 5),
-    _NavItem(icon: Icons.settings_outlined,     label: 'Settings',  index: 6),
+    _NavItem(icon: Icons.receipt_long_outlined, label: 'Billing',   index: 5),
+    _NavItem(icon: Icons.group_outlined,        label: 'Staff',     index: 6),
+    _NavItem(icon: Icons.settings_outlined,     label: 'Settings',  index: 7),
   ];
 
   @override

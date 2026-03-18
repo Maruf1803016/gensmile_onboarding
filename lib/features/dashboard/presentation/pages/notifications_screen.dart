@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
 import 'package:onboarding/core/constant/app_colors.dart';
-import 'package:onboarding/core/states/navigator_state.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   const NotificationsScreen({super.key});
@@ -37,7 +36,7 @@ class NotificationsScreen extends ConsumerWidget {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => ref.read(navigatorState.notifier).pop(),
+                    onTap: () => Navigator.of(context).pop(),
                     child: Icon(Icons.arrow_back, size: 22.sp, color: AppColors.textColor),
                   ),
                   SizedBox(width: 12.w),

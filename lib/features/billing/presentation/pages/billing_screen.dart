@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'package:gap/gap.dart';
 import 'package:onboarding/core/constant/app_colors.dart';
-import 'package:onboarding/core/states/navigator_state.dart';
 import 'package:onboarding/features/billing/states/billing_state.dart';
 import 'package:onboarding/features/billing/presentation/widgets/subscription_overview_tab.dart';
 import 'package:onboarding/features/billing/presentation/widgets/billing_history_tab.dart';
@@ -37,7 +35,7 @@ class BillingScreen extends ConsumerWidget {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: () => ref.read(navigatorState.notifier).pop(),
+                  onTap: () => Navigator.of(context).pop(),
                   child: Icon(Icons.arrow_back,
                       size: 24.w, color: AppColors.textColor),
                 ),
